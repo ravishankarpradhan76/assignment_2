@@ -14,7 +14,7 @@ class _EventBulkFoodState extends State<EventBulkFood> {
       body: Stack(
         children: [
           Container(
-            width: MediaQuery.of(context).size.width * 1.5, // Responsive width
+            width: MediaQuery.of(context).size.width, // Use the full screen width
             height: 268,
             decoration: BoxDecoration(
               image: DecorationImage(
@@ -25,7 +25,10 @@ class _EventBulkFoodState extends State<EventBulkFood> {
           ),
           Positioned(
             top: 40,
+            left: 16,
+            right: 16,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
@@ -38,6 +41,7 @@ class _EventBulkFoodState extends State<EventBulkFood> {
                   ],
                 ),
                 SizedBox(height: 160),
+                // Categories Section
                 Container(
                   width: MediaQuery.of(context).size.width,
                   height: 50,
@@ -47,27 +51,20 @@ class _EventBulkFoodState extends State<EventBulkFood> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Column(
-                          children: [
-                            Text(
-                              'ALL(8)',
-                              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.pink),
-                            ),
-                            SizedBox(height: 3),
-                            Container(
-                              height: 2,
-                              width: 42,
-                              color: Colors.pink,
-                            ),
-                          ],
-                        ),
-                        Text('Breakfast', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400)),
-                        Text('Lunch & Dinner', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400)),
-                        Text('Snacks', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400)),
+                        _buildCategoryItem('ALL(8)', true),
+                        _buildCategoryItem('Breakfast', false),
+                        _buildCategoryItem('Lunch & Dinner', false),
+                        _buildCategoryItem('Snacks', false),
                       ],
                     ),
                   ),
                 ),
+                // Food Image/Section Container
+                Container(
+                  height: 255,
+                  width: double.infinity,
+                  color: Colors.blueGrey,
+                )
               ],
             ),
           ),
@@ -75,28 +72,42 @@ class _EventBulkFoodState extends State<EventBulkFood> {
       ),
       bottomNavigationBar: Container(
         height: 50,
-        width: MediaQuery.of(context).size.width,
         color: Colors.white,
-        child: Stack(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Positioned(
-              top: 10,
-              left: 13,
-              child: CircularImageContainer(imagePath: 'assets/images/img_8.png'),
-            ),
-            Positioned(
-              top: 10,
-              left: 25,
-              child: CircularImageContainer(imagePath: 'assets/images/img_8.png'),
-            ),
-            Positioned(
-              top: 10,
-              left: 37,
-              child: CircularImageContainer(imagePath: 'assets/images/img_8.png'),
-            ),
+            SizedBox(width: 13),
+            CircularImageContainer(imagePath: 'assets/images/img_8.png'),
+            SizedBox(width: 12),
+            CircularImageContainer(imagePath: 'assets/images/img_8.png'),
+            SizedBox(width: 12),
+            CircularImageContainer(imagePath: 'assets/images/img_8.png'),
           ],
         ),
       ),
+    );
+  }
+
+  // Method to build category items
+  Widget _buildCategoryItem(String label, bool isSelected) {
+    return Column(
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w400,
+            color: isSelected ? Colors.pink : Colors.black,
+          ),
+        ),
+        SizedBox(height: 3),
+        if (isSelected)
+          Container(
+            height: 2,
+            width: 42,
+            color: Colors.pink,
+          ),
+      ],
     );
   }
 }
@@ -115,11 +126,11 @@ class CircularImageContainer extends StatelessWidget {
         borderRadius: BorderRadius.circular(26.56),
         border: Border.all(
           width: 2,
-          color: Colors.white
-        ),// Circular border radius
+          color: Colors.white,
+        ),
         image: DecorationImage(
-          image: AssetImage(imagePath), // Image asset
-          fit: BoxFit.cover, // Ensure image covers the container
+          image: AssetImage(imagePath),
+          fit: BoxFit.cover,
         ),
       ),
     );
